@@ -7,7 +7,7 @@ This simple Python script uses Selenium with a headless instance of Chrome (via 
 
 ## Installation
 
-Download or clone the repo into a folder. Download a copy of the latest version of [chromedriver](https://sites.google.com/a/chromium.org/chromedriver/downloads), place it in the project folder, and make sure the binary is named `chromedriver`. Edit `config.example.json` with your Mediacom username & password, then rename the file to `config.json`. Check to make sure that you have all the dependencies (you may need to install selenium via pip). If you are not running on OSX, edit `chrome_options.binary_location` in `scrape.py` to correctly reflect the path to your Chrome binary.
+Download or clone the repo into a folder. Download a copy of the latest version of [chromedriver](http://chromedriver.chromium.org/downloads), place it in the project folder, and make sure the binary is named `chromedriver`. Edit `config.example.json` with your Mediacom username & password, then rename the file to `config.json`. Check to make sure that you have all the dependencies (you may need to install selenium via pip). If you are not running on OSX, edit `chrome_options.binary_location` in `scrape.py` to correctly reflect the path to your Chrome binary.
 
 ## Usage
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -12,15 +13,33 @@ import time
 import re
 import json
 
+# console.log(navigator.userAgent) = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36
+# console.log(navigator.userAgent) = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.96 Safari/537.36
+
+user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.96 Safari/537.36"
+
 chrome_options = Options()
-chrome_options.add_argument("--headless")
+# Run headless (this broke at one point)
+####chrome_options.add_argument("--headless")
+# Yep, headless operation is currently broken due to some issue with highcharts rendering or whatever. damn it, it even used to work too!
+#
+# Permit running insecure mixed content (currently seemingly mandatory for Mediacom's poorly put together legacy site)
+chrome_options.add_argument("--allow-running-insecure-content")
+#
+# Side note: The -- prefix is apparently optional?
+#
+chrome_options.add_argument(f'user-agent={user_agent}')
+# Explicitly specifying the binary path MAY be unnecessary, not sure
 chrome_options.binary_location = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 
-driver = webdriver.Chrome(executable_path=os.path.abspath("chromedriver"), chrome_options=chrome_options)
+driver = webdriver.Chrome(executable_path=os.path.abspath("chromedriver"), options=chrome_options)
 
 with open('config.json') as json_config_file:
 	config = json.load(json_config_file)
 
+#
+# Apparently https mixed content now?
+#
 driver.get("http://mediacomtoday.com/usagemeter/index.php")
 
 timeout = 5
@@ -50,11 +69,16 @@ except TimeoutException:
 
 time.sleep(1) # wait for JS to load
 
-driver.switch_to.frame(driver.find_element_by_tag_name("iframe"))
-# driver.find_element_by_css_selector(#body_cols > iframe)
+##time.sleep(100000000)
+
+#driver.switch_to.frame(driver.find_element_by_tag_name("iframe"))
+driver.switch_to.frame(driver.find_element_by_css_selector("#body_cols > iframe"))
+#driver.find_element_by_css_selector("#body_cols > iframe")
+
+##time.sleep(100000000)
 
 # Alternatives/other:
-# Contains span with Internet 200, then crap text, but contains package specs (DL/UL/bandwidth): #bodyInc > table > tbody > tr:nth-child(4) > td:nth-child(2) > table:nth-child(2) > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(2) > td
+# Contains span with Internet 200, then crop text, but contains package specs (DL/UL/bandwidth): #bodyInc > table > tbody > tr:nth-child(4) > td:nth-child(2) > table:nth-child(2) > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(2) > td
 # Current internet usage: #bodyInc > table > tbody > tr:nth-child(4) > td:nth-child(2) > table:nth-child(2) > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(3) > td > b
 # Data usage text (includes the measurement date): #bodyInc > table > tbody > tr:nth-child(4) > td:nth-child(2) > table:nth-child(2) > tbody > tr > td:nth-child(3) > table > tbody > tr:nth-child(10) > td:nth-child(2) > span
 
