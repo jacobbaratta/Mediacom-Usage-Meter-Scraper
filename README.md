@@ -19,6 +19,10 @@ WARNING: If you run the script too frequently, you are likely to eventually enco
 
 ## Release History
 
+* 1.1 (Sept 18 2019)
+    * Commit a number of patches made through early 2019 that fix bugs with Mediacom's legacy bandwidth meter site
+    * Various minor changes and improvements
+    * Change chromedriver site URL
 * 1.0
     * First public release
 
