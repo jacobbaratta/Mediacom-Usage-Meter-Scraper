@@ -1,5 +1,5 @@
 # Mediacom Usage Meter Scraper
->Because it's too much damn work to log into Mediacom's crappy website every time I want to check my bandwidth usage status.
+>Because it's too much damn work to log into Mediacom's crappy website every time I want to check my bandwidth usage.
 
 This simple Python script uses Selenium with a headless instance of Chrome (via chromedriver) to log into the Mediacom bandwidth usage site, scrape some data about your current monthly bandwidth usage, and display it to you in the console output.
 
